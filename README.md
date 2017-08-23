@@ -1,5 +1,9 @@
 # AWS Cloudwatch Logger
 
+[![NPM Version](https://badge.fury.io/js/%40car-throttle%2Faws-cloudwatch-logger.svg)](https://www.npmjs.com/package/@car-throttle/aws-cloudwatch-logger)
+[![Circle CI](https://circleci.com/gh/car-throttle/aws-cloudwatch-logger/tree/master.svg?style=shield)](https://circleci.com/gh/car-throttle/aws-cloudwatch-logger/tree/master)
+[![Coverage Status](https://coveralls.io/repos/github/car-throttle/aws-cloudwatch-logger/badge.svg?branch=master)](https://coveralls.io/github/car-throttle/aws-cloudwatch-logger?branch=master)
+
 Send your application logs from your Docker containers directly to [AWS Cloudwatch](https://aws.amazon.com/cloudwatch/).
 This is particularly ideal if you're running containers on [AWS EC2 Container Service](https://aws.amazon.com/ecs/),
 although this has also been used to send logs from containers running on self-hosted hardware.
