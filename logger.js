@@ -117,15 +117,30 @@ module.exports.createMiddleware = function (opts) {
   };
 };
 
-module.exports.formatErr = function (err, context) {
-  return Object.assign({
-    code: err.code || null,
-    name: err.name || 'Error',
-    message: err.message || `${err}`,
-  }, context || {}, {
-    stack: (err.stack || `${err}`).split('\n').map(s => s.trim()),
+module.exports.formatErr = function (err) {
+  if (!(err instanceof Error)) err = new Error(err);
+
+  const out = {};
+  const props = [].concat('code', 'name', 'message', Object.keys(err), 'stack');
+  // For each discovered prop, if it exists then add it to the output
+  props.forEach(key => {
+    if (err[key]) out[key] = err[key];
   });
+  // If we got a stack then fetch the entire stack, including causes
+  if (typeof out.stack === 'string') out.stack = getErrorStack(err).split('\n').map(s => s.trim());
+
+  return out;
 };
+
+function getErrorStack(err) {
+  const stack = err.stack || err.toString();
+  /* istanbul ignore if */
+  if (typeof err.cause === 'function') {
+    const cause = err.cause();
+    if (cause) stack += '\nCaused by: ' + getErrorStack(cause);
+  }
+  return stack;
+}
 
 function hasDepth(value) {
   return value && (value instanceof Error || typeof value === 'object' || Array.isArray(value));

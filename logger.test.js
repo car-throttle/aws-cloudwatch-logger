@@ -69,7 +69,6 @@ describe('aws-cloudwatch-logger', function () {
           type: 'error',
           message: 'But this is a third message',
           error: {
-            code: null,
             name: 'Error',
             message: 'Something bad happened',
             stack: [ 'Error: Something bad happened' ],
@@ -78,7 +77,6 @@ describe('aws-cloudwatch-logger', function () {
         {
           type: 'error',
           error: {
-            code: null,
             name: 'Error',
             message: 'Something else bad happened',
             stack: [ 'Error: Something else bad happened' ],
@@ -107,7 +105,6 @@ describe('aws-cloudwatch-logger', function () {
       const out = CloudwatchLogger.formatErr(err);
       out.stack = out.stack.slice(0, 1);
       assert.deepEqual(out, {
-        code: null,
         name: 'Error',
         message: 'Something bad happened',
         stack: [ 'Error: Something bad happened' ],
@@ -129,31 +126,14 @@ describe('aws-cloudwatch-logger', function () {
       });
     });
 
-    it('should format an Error with some context', function () {
-      const err = new Error('Invalid database query: "PICK 1 FROM 1MILLION" is not a valid query');
-      err.code = 'INVALID_DATABASE_QUERY';
-      err.name = 'CrazyDatabaseDriverError';
-
-      const out = CloudwatchLogger.formatErr(err, {
-        name: 'UnusualDatabaseError',
-        message: 'Error returning data from the database',
-      });
-      out.stack = out.stack.slice(0, 1);
-      assert.deepEqual(out, {
-        code: 'INVALID_DATABASE_QUERY',
-        name: 'UnusualDatabaseError',
-        message: 'Error returning data from the database',
-        stack: [ 'CrazyDatabaseDriverError: Invalid database query: "PICK 1 FROM 1MILLION" is not a valid query' ],
-      });
-    });
-
     it('should format an string as an error', function () {
       const out = CloudwatchLogger.formatErr('Something bad happened, but this ain\'t no regular Error');
+      out.stack = out.stack.slice(0, 1);
+
       assert.deepEqual(out, {
-        code: null,
         name: 'Error',
         message: 'Something bad happened, but this ain\'t no regular Error',
-        stack: [ 'Something bad happened, but this ain\'t no regular Error' ],
+        stack: [ 'Error: Something bad happened, but this ain\'t no regular Error' ],
       });
     });
 
