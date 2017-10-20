@@ -1,6 +1,6 @@
 {
   "name": "@car-throttle/aws-cloudwatch-logger",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Send your application logs from your containers seamlessly to AWS Cloudwatch",
   "main": "logger.js",
   "scripts": {
@@ -17,8 +17,11 @@
     "url": "https://github.com/car-throttle/aws-cloudwatch-logger"
   },
   "keywords": [
-    "aws", "cloudwatch", "logger",
-    "docker", "logging"
+    "aws",
+    "cloudwatch",
+    "logger",
+    "docker",
+    "logging"
   ],
   "files": [
     "logger.js"
